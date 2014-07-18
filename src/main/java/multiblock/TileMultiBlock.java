@@ -11,8 +11,10 @@ public abstract class TileMultiBlock extends TileEntity {
     public void updateEntity() {
         super.updateEntity();
         if (!worldObj.isRemote) {
-            if (hasMaster() && isMaster()) {
-                doMultiBlockStuff();
+            if (hasMaster()) { 
+                if (isMaster()) {
+                    doMultiBlockStuff();
+                }
             } else {
                 // Constantly check if structure is formed until it is.
                 if (checkMultiBlockForm())
