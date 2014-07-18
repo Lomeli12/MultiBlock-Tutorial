@@ -58,4 +58,15 @@ public class TileHollowMultiBlock extends TileMultiBlock {
                     }
                 }
     }
+
+    @Override
+    public void resetStructure() {
+        for (int x = xCoord - 1; x < xCoord + 2; x++)
+            for (int y = yCoord; y < yCoord + 3; y++)
+                for (int z = zCoord - 1; z < zCoord + 2; z++) {
+                    TileEntity tile = worldObj.getTileEntity(x, y, z);
+                    if (tile != null && (tile instanceof TileMultiBlock))
+                        ((TileMultiBlock) tile).reset();
+                }
+    }
 }

@@ -34,6 +34,11 @@ public class TileStoneMultiblock extends TileMultiBlock {
     }
 
     @Override
+    public void resetStructure() {
+
+    }
+
+    @Override
     public void masterWriteToNBT(NBTTagCompound tag) {
 
     }

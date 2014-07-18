@@ -1,7 +1,6 @@
 package multiblock;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
 public abstract class TileMultiBlock extends TileEntity {
@@ -12,16 +11,8 @@ public abstract class TileMultiBlock extends TileEntity {
     public void updateEntity() {
         super.updateEntity();
         if (!worldObj.isRemote) {
-            if (hasMaster()) {
-                if (isMaster()) {
-                    if (checkMultiBlockForm())
-                        doMultiBlockStuff();
-                    else
-                        resetStructure();
-                } else {
-                    if (!checkForMaster())
-                        reset();
-                }
+            if (hasMaster() && isMaster()) {
+                doMultiBlockStuff();
             } else {
                 // Constantly check if structure is formed until it is.
                 if (checkMultiBlockForm())
@@ -30,16 +21,24 @@ public abstract class TileMultiBlock extends TileEntity {
         }
     }
 
-    /** Stuff the multiblock will do when formed */
+    /**
+     * Stuff the multiblock will do when formed
+     */
     public abstract void doMultiBlockStuff();
 
-    /** Check that structure is properly formed */
+    /**
+     * Check that structure is properly formed
+     */
     public abstract boolean checkMultiBlockForm();
 
-    /** Setup all the blocks in the structure*/
+    /**
+     * Setup all the blocks in the structure
+     */
     public abstract void setupStructure();
 
-    /** Reset method to be run when the master is gone or tells them to */
+    /**
+     * Reset method to be run when the master is gone or tells them to
+     */
     public void reset() {
         masterX = 0;
         masterY = 0;
@@ -48,22 +47,18 @@ public abstract class TileMultiBlock extends TileEntity {
         isMaster = false;
     }
 
-    /** Check that the master exists */
+    /**
+     * Check that the master exists
+     */
     public boolean checkForMaster() {
         TileEntity tile = worldObj.getTileEntity(masterX, masterY, masterZ);
         return (tile != null && (tile instanceof TileMultiBlock));
     }
 
-    /** Reset all the parts of the structure */
-    public void resetStructure() {
-        for (int x = xCoord - 1; x < xCoord + 2; x++)
-            for (int y = yCoord; y < yCoord + 3; y++)
-                for (int z = zCoord - 1; z < zCoord + 2; z++) {
-                    TileEntity tile = worldObj.getTileEntity(x, y, z);
-                    if (tile != null && (tile instanceof TileMultiBlock))
-                        ((TileMultiBlock) tile).reset();
-                }
-    }
+    /**
+     * Reset all the parts of the structure
+     */
+    public abstract void resetStructure();
 
     public abstract void masterWriteToNBT(NBTTagCompound tag);
 
