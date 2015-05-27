@@ -23,8 +23,10 @@ public class BlockMultiBlock extends BlockContainer {
                     if (!multiBlock.checkMultiBlockForm())
                         multiBlock.resetStructure();
                 } else {
-                    if (!multiBlock.checkForMaster())
-                        multiBlock.reset();
+                    if (!multiBlock.checkForMaster()) {
+                        TileMultiBlock master = (TileMultiBlock) world.getTileEntity(multiBlock.getMasterX(), multiBlock.getMasterY(), multiBlock.getMasterZ());
+                        master.resetStructure();
+                    }
                 }
             }
         }
