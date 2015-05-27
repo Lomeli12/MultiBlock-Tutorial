@@ -12,7 +12,7 @@ public abstract class TileMultiBlock extends TileEntity {
         super.updateEntity();
         if (!worldObj.isRemote) {
             if (hasMaster()) { 
-                if (isMaster()) {
+                if (isMaster() && checkMultiBlockForm()) {
                     doMultiBlockStuff();
                 }
             } else {
